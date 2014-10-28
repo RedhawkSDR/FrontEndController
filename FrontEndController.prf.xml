@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties PUBLIC "-//JTRS//DTD SCA V2.2.2 PRF//EN" "properties.dtd">
+<properties>
+  <simple id="allocationId" mode="readwrite" name="allocationId" type="string">
+    <description>When performing an allocation on FEI Devices, a unique ID is used to represent the request.  In the case of multi-out devices this ID is also required to be used as the connection ID.</description>
+    <value>My_Allocation_Id</value>
+    <kind kindtype="configure"/>
+    <action type="external"/>
+  </simple>
+  <simple id="tunerType" mode="readwrite" name="tunerType" type="string">
+    <description>Used when performing the tuner allocation request.  Valid values are taken from the FEI Specification: TX, RX, CHANNELIZER, DDC, RX_DIGITIZER, RX_DIGTIZIER_CHANNELIZER</description>
+    <enumerations>
+      <enumeration label="TX" value="TX"/>
+      <enumeration label="RX" value="RX"/>
+      <enumeration label="CHANNELIZER" value="CHANNELIZER"/>
+      <enumeration label="DDC" value="DDC"/>
+      <enumeration label="RX_DIGITIZER" value="RX_DIGITIZER"/>
+      <enumeration label="RX_DIGTIZIER_CHANNELIZER" value="RX_DIGTIZIER_CHANNELIZER"/>
+    </enumerations>
+    <kind kindtype="configure"/>
+    <action type="external"/>
+  </simple>
+  <struct id="FEIDevice" mode="readwrite" name="FEIDevice">
+    <description>Information about the FEI Device which will be controlled.  Device and port names are required.</description>
+    <simple id="deviceName" name="deviceName" type="string">
+      <description>The name of the device which will be allocated against.  </description>
+    </simple>
+    <simple id="outputPortName" name="outputPortName" type="string">
+      <description>The output port of the FEI Device which will be used to make the connection to an input component.</description>
+    </simple>
+    <simple id="tunerPortName" name="tunerPortName" type="string">
+      <description>The name of the Tuner Port on the device.  This port will be used for tuning requests after the initial allocation is made.</description>
+      <value>DigitalTuner_in</value>
+    </simple>
+    <configurationkind kindtype="configure"/>
+  </struct>
+  <struct id="InputComponent" mode="readwrite">
+    <description>Information about the component which will be connected to the FEI Device.</description>
+    <simple id="componentName" name="componentName" type="string">
+      <description>The name of the component which will be connected to the FEI device.</description>
+    </simple>
+    <simple id="inputPortName" name="inputPortName" type="string">
+      <description>The name of the port which will be connected to the FEI device.</description>
+    </simple>
+    <configurationkind kindtype="configure"/>
+  </struct>
+  <struct id="TuneRequest" mode="readwrite" name="TuneRequest">
+    <simple id="frequency" name="frequency" type="float">
+      <description>Frequency in megahertz to tune the device</description>
+      <units>MHz</units>
+    </simple>
+    <simple id="sampleRate" name="sampleRate" type="float">
+      <description>Sample rate in mega samples per second to tune the device</description>
+      <units>MSps</units>
+    </simple>
+    <configurationkind kindtype="configure"/>
+  </struct>
+</properties>
