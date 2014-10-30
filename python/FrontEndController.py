@@ -144,7 +144,7 @@ class FrontEndController_i(FrontEndController_base):
         
         
         self._log.debug("Searching for the current waveform in the domain")
-        waveform = self.findWaveformByComponentIdentifier(self._get_identifier())
+        waveform = self.findWaveformByComponentInstanceName(self._name)
         
         if waveform is None:
             self._log.error("Stopping. Could not find the running waveform.")
@@ -156,7 +156,7 @@ class FrontEndController_i(FrontEndController_base):
         # Gets the component from the application.  The component name can be the name or instantition.  ex.  DataConverter or DataConveter_3
         # This allows you to use the same component multiple times in a waveform and know for certain which one you are connecting to.
         for comp in waveform.comps:
-            if self.InputComponent.componentName in comp._get_identifier():
+            if self.InputComponent.componentName in comp._instanceName:
                 self.targetComponent = comp
                 break
         
@@ -242,12 +242,13 @@ class FrontEndController_i(FrontEndController_base):
         return FINISH
         
 
-    def findWaveformByComponentIdentifier(self, compId):
+    def findWaveformByComponentInstanceName(self, name):
         # Gets a reference to the running application
         for app in self.domain.apps:
             # Find desired application
             for comp in app.comps:
-                if compId in comp._get_identifier():
+                self._log.trace("Checking if " + name + " is in " + comp._instanceName)
+                if name in comp._instanceName:
                     return app
 
         return None
@@ -256,7 +257,8 @@ class FrontEndController_i(FrontEndController_base):
     def findByDeviceName(self, dev_name):
         for devMgr in self.domain.devMgrs:
             for dev in devMgr.devs:
-                if dev_name in dev._get_identifier():
+                self._log.trace("Checking if " + dev_name + " is in " + dev._instanceName)
+                if dev_name in dev._instanceName:
                     return dev
                 
         return None
