@@ -197,16 +197,19 @@ class FrontEndController_i(FrontEndController_base):
             return
          
         self.allocationRequest = frontend.createTunerAllocation(
-                                                    tuner_type          =   self.tunerType, 
-                                                    allocation_id       =   self.allocationId,
-                                                    center_frequency    =   self.TuneRequest.frequency * 1e6, 
-                                                    sample_rate         =   self.TuneRequest.sampleRate * 1e6,
+                                                    tuner_type              =   self.tunerType, 
+                                                    allocation_id           =   self.allocationId,
+                                                    center_frequency        =   self.TuneRequest.frequency * 1e6, 
+                                                    sample_rate             =   self.TuneRequest.sampleRate * 1e6,
+                                                    sample_rate_tolerance   =   20.0
                                                     )
          
          
          
         self._log.debug("Performing allocation of FEI Device")
         self._log.debug("Allocation contains: " + str(self.allocationRequest))
+        
+        retVal = False
         
         try:
             retVal = self.targetDevice.allocateCapacity(self.allocationRequest)
